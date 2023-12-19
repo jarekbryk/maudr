@@ -1,4 +1,5 @@
 # Randomly assign substrate and inhibition type to each student
+# Random comment to check pushing to github
 assignReactionConditions <- function(
 		students = load("student_names.rda"), # list of students
 		rxn_params = load("reaction_parameters.rda"), # table with reaction parameters
@@ -11,7 +12,7 @@ assignReactionConditions <- function(
 
 	seed  <- sample(100:999, 1) # Record the seed to recreate the data later if needed
 	set.seed(seed)
-	print(paste0("The seed value for this round is: ", seed, ". If save is set to FALSE, record this number for future reference"))
+	print(paste0("The seed value for this round is: ", seed, ". If save is set to FALSE, record this number for future reference."))
 
 	students_rxn_params <- students %>%
 		mutate(student_id = paste(toupper(student_no), toupper(first_name), sep = "_"),

@@ -1,4 +1,5 @@
 # Randomly assign substrate and inhibition type to each student
+
 assignReactionConditions <- function(
 		students = load("student_names.rda"), # list of students
 		rxn_params = load("reaction_parameters.rda"), # table with reaction parameters

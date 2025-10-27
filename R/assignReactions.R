@@ -111,8 +111,8 @@ assignReactions <- function(
   # Each student gets one substrate + one inhibition type
   metadata <- students |>
     dplyr::mutate(
-      rxn_substrate = sample(rxn_substr, n(), replace = TRUE),
-      inhibition_actual = sample(inh_types, n(), replace = TRUE)
+      rxn_substrate = sample(rxn_substr, dplyr::n(), replace = TRUE),
+      inhibition_actual = sample(inh_types, dplyr::n(), replace = TRUE)
     ) |>
     tidyr::uncount(2, .id = "id") |>
     dplyr::mutate(

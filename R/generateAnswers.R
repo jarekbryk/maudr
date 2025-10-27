@@ -169,7 +169,7 @@ generateAnswers <- function(
       dplyr::mutate(
         substrate_f = factor(
           substrate_conc,
-          levels = sort(unique(df_long$substrate_conc))
+          levels = sort(unique(substrate_conc))
         )
       ) |>
       ggplot2::ggplot(ggplot2::aes(
@@ -287,7 +287,7 @@ generateAnswers <- function(
   # Join rates + estimates back for convenience
   answers_tbl <- long_dat |>
     dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
-    tidyr::nest(data = c()) |>
+    tidyr::nest() |>
     # tidyr::nest(data = dplyr::everything()) |>
     dplyr::left_join(
       rate_dat |>

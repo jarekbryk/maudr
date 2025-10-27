@@ -6,7 +6,6 @@ Authors@R: person("Your", "Name", email = "you@example.com", role = c("aut", "cr
 Description: Generates individualised enzyme kinetics assignments for students, with corresponding answer PDFs. Demo mode included.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Imports:
     dplyr,
     ggplot2,

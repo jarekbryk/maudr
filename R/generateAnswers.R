@@ -286,44 +286,30 @@ generateAnswers <- function(
   # --- Build per-student objects (nest/map) ---------------------------------
   # Join rates + estimates back for convenience
   answers_tbl <- long_dat |>
-    dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
-    tidyr::nest() |>
-    # tidyr::nest(data = dplyr::everything()) |>
+    # one nest per student + substrate, containing BOTH conditions
+    dplyr::group_by(student_id, rxn_substrate) |>
+    tidyr::nest(data = -c(student_id, rxn_substrate)) |>
+
+    # nest rates with BOTH conditions in the same tibble
     dplyr::left_join(
       rate_dat |>
-        dplyr::select(student_id, rxn_substrate, rxn_condition, rate) |>
-        dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
-        tidyr::nest(rates = rate),
-      # tidyr::nest(rates = dplyr::everything()),
-      by = c("student_id", "rxn_substrate", "rxn_condition")
+        dplyr::group_by(student_id, rxn_substrate) |>
+        tidyr::nest(rates = -c(student_id, rxn_substrate)),
+      by = c("student_id", "rxn_substrate")
     ) |>
+
+    # estimates remain per-condition, but nested under student+substrate
     dplyr::left_join(
       est_params |>
-        dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
-        tidyr::nest(est = c(KM, VMAX)),
-      by = c("student_id", "rxn_substrate", "rxn_condition")
+        dplyr::group_by(student_id, rxn_substrate) |>
+        tidyr::nest(est = -c(student_id, rxn_substrate)),
+      by = c("student_id", "rxn_substrate")
     ) |>
+
     dplyr::mutate(
-      abs_vs_time_plot = purrr::map(data, plotAbsVsTime),
-      mm_plot = purrr::map2(
-        rates,
-        est,
-        ~ {
-          df_rate <- .x
-          df_est <- if (is.null(.y) || nrow(.y) == 0) {
-            tibble::tibble(
-              rxn_condition = character(),
-              KM = NA_real_,
-              VMAX = NA_real_
-            )
-          } else {
-            .y
-          }
-          plotMM(df_rate, df_est)
-        }
-      ),
-      lb_plot = purrr::map(rates, plotLB),
-      # Small tables
+      abs_vs_time_plot = purrr::map(data, plotAbsVsTime), # expects both conditions in `data`
+      mm_plot = purrr::map2(rates, est, plotMM), # `rates` has both conds; `est` may have 0–2 rows
+      lb_plot = purrr::map(rates, plotLB), # `rates` has both conds → OK
       table1 = purrr::map2(
         student_id,
         rxn_substrate,
@@ -335,7 +321,7 @@ generateAnswers <- function(
           if (is.null(.x) || nrow(.x) == 0) {
             tibble::tibble(rxn_condition = NA, KM = NA, VMAX = NA)
           } else {
-            .x |> dplyr::select(rxn_condition, KM, VMAX)
+            dplyr::select(.x, rxn_condition, KM, VMAX)
           }
         }
       )
@@ -352,8 +338,17 @@ generateAnswers <- function(
   # --- Write PDFs ------------------------------------------------------------
   if (output_files %in% c("separate", "both")) {
     answers_tbl |>
-      dplyr::mutate(
-        pdf_path = file.path(answers_dir, paste0(student_id, "_answers.pdf"))
+      dplyr::select(
+        student_id,
+        rxn_substrate,
+        data,
+        rates,
+        est,
+        abs_vs_time_plot,
+        mm_plot,
+        lb_plot,
+        table1,
+        table2
       ) |>
       purrr::pwalk(function(
         student_id,

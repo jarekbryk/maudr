@@ -169,7 +169,7 @@ generateAnswers <- function(
       dplyr::mutate(
         substrate_f = factor(
           substrate_conc,
-          levels = sort(unique(substrate_conc))
+          levels = sort(unique(df_long$substrate_conc))
         )
       ) |>
       ggplot2::ggplot(ggplot2::aes(

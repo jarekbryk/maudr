@@ -1,0 +1,7 @@
+.git
+.Rproj.user
+.Rhistory
+.RData
+inst/doc
+^.*\.Rproj$
+^\.Rproj\.user$

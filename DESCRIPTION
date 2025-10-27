@@ -1,0 +1,25 @@
+Package: maudr
+Type: Package
+Title: Generation of enzyme kinetics datasets
+Version: 0.3.0
+Authors@R: person("Your", "Name", email = "you@example.com", role = c("aut", "cre"))
+Description: Generates individualised enzyme kinetics assignments for students, with corresponding answer PDFs. Demo mode included.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    ggplot2,
+    gridExtra,
+    purrr,
+    readxl,
+    writexl,
+    tibble,
+    tidyr,
+    stringr, 
+    readr,
+    tidyselect
+Suggests:
+    testthat
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3

@@ -1,0 +1,19 @@
+utils::globalVariables(c(
+  "student_no",
+  "first_name",
+  "surname",
+  "student_id",
+  "rxn_substrate",
+  "rxn_condition",
+  "rxn_time",
+  "substrate_conc",
+  "substrate_label",
+  "absorbance",
+  "gradient",
+  "rate",
+  "Vmax",
+  "Km",
+  "inhibition_actual",
+  "assignment_file",
+  "timestamp"
+))

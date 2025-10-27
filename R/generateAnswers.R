@@ -61,7 +61,8 @@ generateAnswers <- function(
 
   student_raw <- have_files |>
     dplyr::mutate(data = purrr::map(assignment_file, readxl::read_excel)) |>
-    dplyr::select(student_id, data)
+    dplyr::select(student_id, data) |>
+    tidyr::unnest(data)
 
   # --- Long format for analysis ---------------------------------------------
   # Parse numeric substrate concentration from column names like "40_mM"

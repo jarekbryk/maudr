@@ -285,21 +285,23 @@ generateAnswers <- function(
 
   # --- Build per-student objects (nest/map) ---------------------------------
   # Join rates + estimates back for convenience
-  # (we keep est_params optional-NA-safe if nls failed)
   answers_tbl <- long_dat |>
-    dplyr::group_by(student_id, rxn_substrate) |>
-    tidyr::nest(data = dplyr::everything()) |>
+    dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
+    tidyr::nest(data = c()) |>
+    # tidyr::nest(data = dplyr::everything()) |>
     dplyr::left_join(
       rate_dat |>
-        dplyr::group_by(student_id, rxn_substrate) |>
-        tidyr::nest(rates = dplyr::everything()),
-      by = c("student_id", "rxn_substrate")
+        dplyr::select(student_id, rxn_substrate, rxn_condition, rate) |>
+        dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
+        tidyr::nest(rates = rate),
+      # tidyr::nest(rates = dplyr::everything()),
+      by = c("student_id", "rxn_substrate", "rxn_condition")
     ) |>
     dplyr::left_join(
       est_params |>
-        dplyr::group_by(student_id, rxn_substrate) |>
-        tidyr::nest(est = dplyr::everything()),
-      by = c("student_id", "rxn_substrate")
+        dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
+        tidyr::nest(est = c(KM, VMAX)),
+      by = c("student_id", "rxn_substrate", "rxn_condition")
     ) |>
     dplyr::mutate(
       abs_vs_time_plot = purrr::map(data, plotAbsVsTime),
@@ -339,7 +341,7 @@ generateAnswers <- function(
       )
     )
 
-  # Layout helper (your preferred layout)
+  # Layout helper
   createAnswerPage <- function(table1, table2, p_abs, p_mm, p_lb) {
     g1 <- gridExtra::tableGrob(table1, rows = NULL)
     g2 <- gridExtra::tableGrob(table2, rows = NULL)

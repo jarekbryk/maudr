@@ -55,6 +55,7 @@ generateAnswers <- function(
   # --- Read all student files (map_dfr) -------------------------------------
   # Each file has: student_id | rxn_substrate | rxn_condition | rxn_time | 0_mM ... 160_mM
   have_files <- meta |> dplyr::filter(file.exists(assignment_file))
+
   if (nrow(have_files) == 0) {
     stop("No assignment files found to read.")
   }
@@ -179,13 +180,14 @@ generateAnswers <- function(
       )) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth(method = "lm", se = FALSE) +
-      ggplot2::facet_wrap(~rxn_condition, ncol = 1) +
+      ggplot2::facet_wrap(~rxn_condition) +
       ggplot2::labs(
         x = "Reaction time (min)",
         y = "Absorbance (AU)",
         colour = "[S] (mM)"
       ) +
-      ggplot2::theme_minimal()
+      ggplot2::theme_minimal() +
+      theme(legend.position = "bottom")
   }
 
   # MM: points for both conditions on one plot (optional smooth from nls estimates if available)
@@ -197,10 +199,12 @@ generateAnswers <- function(
       ggplot2::geom_point() +
       ggplot2::labs(
         x = "Substrate concentration (mM)",
-        y = "Reaction rate (ΔAbs/min)",
-        title = "Michaelis-Menten (points)"
+        y = "Reaction rate (\u0394Abs/min)",
+        title = "Michaelis-Menten (points)",
+        colour = "Type of inhibition"
       ) +
-      ggplot2::theme_minimal()
+      ggplot2::theme_minimal() +
+      theme(legend.position = "bottom")
 
     # Optional curve: if both VMAX & KM exist, overlay a curve per condition
     add_curve <- function(p, Vmax, Km, cond, xs) {
@@ -277,10 +281,18 @@ generateAnswers <- function(
       ggplot2::coord_cartesian(xlim = xlim) +
       ggplot2::labs(
         x = "1 / [S] (1/mM)",
-        y = "1 / rate (min/ΔAbs)",
-        title = "Lineweaver-Burke (fitted lines)"
+        y = "1 / rate (min/\u0394Abs)",
+        title = "Lineweaver-Burke plot"
       ) +
-      ggplot2::theme_minimal()
+      ggplot2::theme_minimal() +
+      theme(legend.position = "bottom") +
+      stat_poly_eq(aes(
+        label = paste(
+          after_stat(eq.label),
+          after_stat(rr.label),
+          sep = "*\", \"*"
+        )
+      ))
   }
 
   # --- Build per-student objects (nest/map) ---------------------------------

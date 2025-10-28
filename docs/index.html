@@ -44,8 +44,76 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-R package that generates individualised enzyme kinetics assignments for students, with corresponding answer PDFs. Includes demo mode.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="maudr">maudr<a class="anchor" aria-label="anchor" href="#maudr"></a>
+</h1></div>
+<p><strong>maudr</strong> is an R package designed to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in biochemistry and related laboratory courses. It allows instructors to automatically generate individualized, realistic experimental datasets for each student — complete with enzyme inhibition conditions — and to produce corresponding answers with visual summaries.</p>
+<p>The name of the package is a play on the name of <a href="https://en.wikipedia.org/wiki/Maud_Menten" class="external-link">Dr Maud Menten</a>, a Canadian biochemist who established fundamental principles of enzyme kinetics, along with Dr Leonor Michaelis.</p>
+<div class="section level2">
+<h2 id="arrow_down-installation">⬇️ Installation<a class="anchor" aria-label="anchor" href="#arrow_down-installation"></a>
+</h2>
+<p><strong>maudr</strong> is only available on GitHub, there are no plans to upload it to CRAN.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"lewis-ward/maudr"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="chart_with_upwards_trend-usage">📈 Usage<a class="anchor" aria-label="anchor" href="#chart_with_upwards_trend-usage"></a>
+</h2>
+<div class="section level3">
+<h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h3>
+<p>The package uses enzyme kinetic parameters for <em>S. cerevisiae</em> alcohol dehydrogenase, as established in a <a href="https://www.jbc.org/article/S0021-9258(18)61419-X/pdf" class="external-link">1987 publication by Ganzhorn <em>et al.</em></a>. An Excel file with the parameters for ADH and its inhibitors is provided by default (<code>reaction_parameters.xlsx</code>), however, parameters for other enzymes and inhibitors can be provided by the user, as long as the column names remain unchanged:</p>
+<ul>
+<li><code>rxn_substrate</code></li>
+<li><code>Kcat</code></li>
+<li><code>Km</code></li>
+<li><code>Vmax</code></li>
+<li><code>enzyme_conc</code></li>
+<li><code>inhibition_actual</code></li>
+</ul>
+<p>If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers:</p>
+<ul>
+<li>
+<code>student_no</code> – unique student ID (e.g. “u123456”)</li>
+<li>
+<code>first_name</code> – student’s first name</li>
+<li>
+<code>surname</code> – student’s surname</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="process">Process<a class="anchor" aria-label="anchor" href="#process"></a>
+</h3>
+<p>The package has four main functions to produce students’ datasets and analysis of their results; the functions should be used in order.</p>
+<div class="section level4">
+<h4 id="initialiseproject">
+<code>initialiseProject()</code><a class="anchor" aria-label="anchor" href="#initialiseproject"></a>
+</h4>
+<p>It sets up a top-level folder where the input data will be stored and output produced. The top-level folder will be named “maudr_assignments” unless a different name is specified by the user.</p>
+</div>
+<div class="section level4">
+<h4 id="assignreactions">
+<code>assignReactions()</code><a class="anchor" aria-label="anchor" href="#assignreactions"></a>
+</h4>
+<p>It creates a table with an assignment of every student-to-reaction conditions, randomly drawn from the reaction_parameters.xlsx file. This <em>metadata</em> table is and deposited in the <code>output/assignments_output/</code> folder in the top-level project folder created by <code><a href="reference/initialiseProject.html">initialiseProject()</a></code>.</p>
+<p>The output of <code><a href="reference/assignReactions.html">assignReactions()</a></code> is a list with a timestamp and the <em>metadata</em> file with student-reaction assignments. The timestamp will be used as an input for the next function.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="arrow_forward-example">▶️ Example<a class="anchor" aria-label="anchor" href="#arrow_forward-example"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">maudr</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/initialiseProject.html">initialiseProject</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"~/Desktop/"</span><span class="op">)</span></span>
+<span><span class="va">setup</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assignReactions.html">assignReactions</a></span><span class="op">(</span>student_file <span class="op">=</span> <span class="st">"~/Documents/students_file.xlsx"</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span><span class="op">)</span></span>
+<span><span class="co"># str(setup)</span></span>
+<span><span class="fu"><a href="reference/generateAssignments.html">generateAssignments</a></span><span class="op">(</span>run_timestamp <span class="op">=</span> <span class="va">setup</span><span class="op">$</span><span class="va">timestamp</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/generateAnswers.html">generateAnswers</a></span><span class="op">(</span>run_timestamp <span class="op">=</span> <span class="va">setup</span><span class="op">$</span><span class="va">timestamp</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span>, output_files <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
@@ -69,8 +137,7 @@ R package that generates individualised enzyme kinetics assignments for students
 <li>Jarek Bryk <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2791-9709" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Lewis Ward <br><small class="roles"> Author </small>   </li>
 <li>Richard Bingham <br><small class="roles"> Author </small>   </li>
-<li>Wayne-hon Lau <br><small class="roles"> Author </small>   </li>
-<li>Shamus Burns <br><small class="roles"> Author </small>   </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
@@ -81,7 +148,7 @@ R package that generates individualised enzyme kinetics assignments for students
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Jarek Bryk, Lewis Ward, Richard Bingham, Wayne-hon Lau, Shamus Burns.</p>
+  <p>Developed by Jarek Bryk, Lewis Ward, Richard Bingham.</p>
 </div>
 
 <div class="pkgdown-footer-right">

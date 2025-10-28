@@ -2,7 +2,7 @@ Package: maudr
 Type: Package
 Title: Generation of enzyme kinetics datasets
 Version: 0.4.0
-Authors@R: c(person("Jarek", "Bryk", email = "j.bryk@hud.ac.uk", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2791-9709")), person("Lewis", "Ward", role = "aut"), person("Richard", "Bingham", role = "aut"), person("Wayne-hon", "Lau", role = "aut"), person("Shamus", "Burns", role = "aut"))
+Authors@R: c(person("Jarek", "Bryk", email = "j.bryk@hud.ac.uk", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2791-9709")), person("Lewis", "Ward", role = "aut"), person("Richard", "Bingham", role = "aut"), person("Wayne-hon", "Lau", role = "ctb"), person("Shamus", "Burns", role = "ctb"))
 Description: R package that generates individualised enzyme kinetics assignments for students, with corresponding answer PDFs. Includes demo mode.
 License: MIT + file LICENSE
 Encoding: UTF-8

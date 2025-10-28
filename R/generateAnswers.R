@@ -286,7 +286,7 @@ generateAnswers <- function(
       ) +
       ggplot2::theme_minimal() +
       theme(legend.position = "bottom") +
-      stat_poly_eq(aes(
+      ggpmisc::stat_poly_eq(aes(
         label = paste(
           after_stat(eq.label),
           after_stat(rr.label),

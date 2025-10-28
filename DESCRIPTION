@@ -17,7 +17,8 @@ Imports:
     tidyr,
     stringr, 
     readr,
-    tidyselect
+    tidyselect,
+    ggpmisc
 Suggests:
     testthat
 Roxygen: list(markdown = TRUE)

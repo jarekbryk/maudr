@@ -38,17 +38,29 @@ The package has four main functions to produce students' datasets and analysis o
 
 #### `initialiseProject()`
 
-It sets up a top-level folder (default location - current folder) where the input data will be stored and output produced. The top-level folder will be named "maudr_assignments" unless a different name is specified by the user. Folders `data` and `output` are created, with subfolders `output/assignments_output` and `output/answers_outputa. R projects are not used.
+Sets up a top-level folder (default location: current folder) where the input data will be stored and output produced. The top-level folder will be named "maudr_assignments" unless a different name is specified by the user. Folders `data` and `output` are created, with subfolders `output/assignments_output` and `output/answers_output`. RStudio project structure is not used.
 
 #### `assignReactions()`
 
-It creates a metadada table with an assignment of every student-to-reaction conditions, randomly drawn from the reaction_parameters.xlsx file. This table is deposited in the `output/assignments_output/` folder in the top-level project folder created by `initialiseProject()`.
+Takes a list of students and a table with enzyme parameters and creates a metadata table with an assignment of every student-to-reaction conditions, randomly drawn from the `reaction_parameters.xlsx file`. This table is deposited in the `output/assignments_output` folder in the top-level project folder created by `initialiseProject()`.
 
-The output of `assignReactions()` is a list with a timestamp and the metadata table with student-reaction assignments. The timestamp is used as an input for the next function.
+If neither of the input files are provided, this function runs in a demo mode, using a list of 4 imaginary students and enzyme parameters for the ADH to proceed.
+
+The output of `assignReactions()` is a list with a timestamp and the metadata table with student-reaction assignments. The timestamp is used as an input for the next function and serves as a unique identifier for each run of the package.
 
 #### `generateAssignments()`
 
+Takes the timestamp as input (and, invisibly, the student-reaction assignments table) and produces Excel file for each student with absorbances for the reactions with their assigned substrate and inhibitor. The files are deposited in the  `output/assignments_output` folder with a given timestamp.
+
 #### `generateAnswers()`
+
+Takes the timestamp as input (and, invisibly, all the student-specific files) and produces PDF file with the results of the analysis of students' data. The results include plots of:
+
+- absorbance vs time (for inhibited and non-inhibited reactions)
+- Michaelis-Menten curves (for inhibited and non-inhibited reactions)
+- Lineweaver-Burk (for inhibited and non-inhibited reactions, with regression equations) 
+
+The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the `output/assignments_output` folder with a given timestamp.
 
 ### ▶️ Example use
 

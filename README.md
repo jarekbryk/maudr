@@ -1,6 +1,6 @@
 # maudr
 
-**maudr** is an R package designed to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in biochemistry and related laboratory courses. It allows instructors to automatically generate individualized, realistic experimental datasets for each student — complete with enzyme inhibition conditions — and to produce corresponding answers with visual summaries. 
+**maudr** is an R package designed to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in biochemistry and related laboratory courses. It allows instructors to automatically generate individualized, realistic experimental datasets for each student (complete with enzyme inhibition conditions) and to produce corresponding answers with visual summaries. 
 
 The name of the package is a play on the name of [Dr Maud Menten](https://en.wikipedia.org/wiki/Maud_Menten), a Canadian biochemist who established fundamental principles of enzyme kinetics, along with Dr Leonor Michaelis.
 
@@ -10,8 +10,7 @@ The name of the package is a play on the name of [Dr Maud Menten](https://en.wik
 
 ``` r
 install.packages("remotes")
-
-remotes::install_github("lewis-ward/maudr")
+remotes::install_github("jarekbryk/maudr")
 ```
 
 ## 📈 Usage
@@ -39,21 +38,25 @@ The package has four main functions to produce students' datasets and analysis o
 
 #### `initialiseProject()`
 
-It sets up a top-level folder where the input data will be stored and output produced. The top-level folder will be named "maudr_assignments" unless a different name is specified by the user.
+It sets up a top-level folder (default location - current folder) where the input data will be stored and output produced. The top-level folder will be named "maudr_assignments" unless a different name is specified by the user. Folders `data` and `output` are created, with subfolders `output/assignments_output` and `output/answers_outputa. R projects are not used.
 
 #### `assignReactions()`
 
-It creates a table with an assignment of every student-to-reaction conditions, randomly drawn from the reaction_parameters.xlsx file. This _metadata_ table is and deposited in the `output/assignments_output/` folder in the top-level project folder created by `initialiseProject()`.
+It creates a metadada table with an assignment of every student-to-reaction conditions, randomly drawn from the reaction_parameters.xlsx file. This table is deposited in the `output/assignments_output/` folder in the top-level project folder created by `initialiseProject()`.
 
-The output of `assignReactions()` is a list with a timestamp and the _metadata_ file with student-reaction assignments. The timestamp will be used as an input for the next function.
+The output of `assignReactions()` is a list with a timestamp and the metadata table with student-reaction assignments. The timestamp is used as an input for the next function.
 
-### ▶️ Example
+#### `generateAssignments()`
+
+#### `generateAnswers()`
+
+### ▶️ Example use
 
 ```r
 library(maudr)
-initialiseProject(path = "~/Desktop/")
-setup <- assignReactions(student_file = "~/Documents/students_file.xlsx", project_path = "~/Desktop")
-# str(setup)
-generateAssignments(run_timestamp = setup$timestamp, project_path = "~/Desktop")
-generateAnswers(run_timestamp = setup$timestamp, project_path = "~/Desktop", output_files = "both")
+initialiseProject(path = "~/Desktop")
+setup <- assignReactions(student_file = "~/Documents/students_file.xlsx", project_path = "~/Desktop") # students_file.xlsx is copied into the data folder in the top level folder
+# str(setup) # to check the list created by the assignReaction() function
+generateAssignments(run_timestamp = setup$timestamp, project_path = "~/Desktop") # Assignments (one Excel file per student) will be deposited in the output/assignment_output folder
+generateAnswers(run_timestamp = setup$timestamp, project_path = "~/Desktop", output_files = "both") # Assignments (one PDF file per student plus a single PDf with answers from all students' datasets) will be deposited in the output/answers_output folder
 ```

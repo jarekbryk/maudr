@@ -90,24 +90,33 @@
 <h4 id="initialiseproject">
 <code>initialiseProject()</code><a class="anchor" aria-label="anchor" href="#initialiseproject"></a>
 </h4>
-<p>It sets up a top-level folder (default location - current folder) where the input data will be stored and output produced. The top-level folder will be named “maudr_assignments” unless a different name is specified by the user. Folders <code>data</code> and <code>output</code> are created, with subfolders <code>output/assignments_output</code> and `output/answers_outputa. R projects are not used.</p>
+<p>Sets up a top-level folder (default location: current folder) where the input data will be stored and output produced. The top-level folder will be named “maudr_assignments” unless a different name is specified by the user. Folders <code>data</code> and <code>output</code> are created, with subfolders <code>output/assignments_output</code> and <code>output/answers_output</code>. RStudio project structure is not used.</p>
 </div>
 <div class="section level4">
 <h4 id="assignreactions">
 <code>assignReactions()</code><a class="anchor" aria-label="anchor" href="#assignreactions"></a>
 </h4>
-<p>It creates a metadada table with an assignment of every student-to-reaction conditions, randomly drawn from the reaction_parameters.xlsx file. This table is deposited in the <code>output/assignments_output/</code> folder in the top-level project folder created by <code><a href="reference/initialiseProject.html">initialiseProject()</a></code>.</p>
-<p>The output of <code><a href="reference/assignReactions.html">assignReactions()</a></code> is a list with a timestamp and the metadata table with student-reaction assignments. The timestamp is used as an input for the next function.</p>
+<p>Takes a list of students and a table with enzyme parameters and creates a metadata table with an assignment of every student-to-reaction conditions, randomly drawn from the <code>reaction_parameters.xlsx file</code>. This table is deposited in the <code>output/assignments_output</code> folder in the top-level project folder created by <code><a href="reference/initialiseProject.html">initialiseProject()</a></code>.</p>
+<p>If neither of the input files are provided, this function runs in a demo mode, using a list of 4 imaginary students and enzyme parameters for the ADH to proceed.</p>
+<p>The output of <code><a href="reference/assignReactions.html">assignReactions()</a></code> is a list with a timestamp and the metadata table with student-reaction assignments. The timestamp is used as an input for the next function and serves as a unique identifier for each run of the package.</p>
 </div>
 <div class="section level4">
 <h4 id="generateassignments">
 <code>generateAssignments()</code><a class="anchor" aria-label="anchor" href="#generateassignments"></a>
 </h4>
+<p>Takes the timestamp as input (and, invisibly, the student-reaction assignments table) and produces Excel file for each student with absorbances for the reactions with their assigned substrate and inhibitor. The files are deposited in the <code>output/assignments_output</code> folder with a given timestamp.</p>
 </div>
 <div class="section level4">
 <h4 id="generateanswers">
 <code>generateAnswers()</code><a class="anchor" aria-label="anchor" href="#generateanswers"></a>
 </h4>
+<p>Takes the timestamp as input (and, invisibly, all the student-specific files) and produces PDF file with the results of the analysis of students’ data. The results include plots of:</p>
+<ul>
+<li>absorbance vs time (for inhibited and non-inhibited reactions)</li>
+<li>Michaelis-Menten curves (for inhibited and non-inhibited reactions)</li>
+<li>Lineweaver-Burk (for inhibited and non-inhibited reactions, with regression equations)</li>
+</ul>
+<p>The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the <code>output/assignments_output</code> folder with a given timestamp.</p>
 </div>
 </div>
 <div class="section level3">

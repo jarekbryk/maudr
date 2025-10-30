@@ -72,6 +72,9 @@
 <li><code>enzyme_conc</code></li>
 <li><code>inhibition_actual</code></li>
 </ul>
+<div class="float">
+<img src="reference/figures/example_reaction_parameters_file.png" alt="Reaction parameters table (this is the default ADH table included with the package and is also used in demo mode)"><div class="figcaption">Reaction parameters table (this is the default ADH table included with the package and is also used in demo mode)</div>
+</div>
 <p>If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers:</p>
 <ul>
 <li>
@@ -81,6 +84,9 @@
 <li>
 <code>surname</code> – student’s surname</li>
 </ul>
+<div class="float">
+<img src="reference/figures/example_student_list_file.png" alt="Example student list (this list is included for the demo mode)"><div class="figcaption">Example student list (this list is included for the demo mode)</div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="process">Process<a class="anchor" aria-label="anchor" href="#process"></a>
@@ -97,7 +103,7 @@
 <code>assignReactions()</code><a class="anchor" aria-label="anchor" href="#assignreactions"></a>
 </h4>
 <p>Takes a list of students and a table with enzyme parameters and creates a metadata table with an assignment of every student-to-reaction conditions, randomly drawn from the <code>reaction_parameters.xlsx file</code>. This table is deposited in the <code>output/assignments_output</code> folder in the top-level project folder created by <code><a href="reference/initialiseProject.html">initialiseProject()</a></code>.</p>
-<p>If neither of the input files are provided, this function runs in a demo mode, using a list of 4 imaginary students and enzyme parameters for the ADH to proceed.</p>
+<p>If neither of the input files are provided, this function runs in a demo mode, using a provided list of four imaginary students and enzyme parameters for the ADH to proceed.</p>
 <p>The output of <code><a href="reference/assignReactions.html">assignReactions()</a></code> is a list with a timestamp and the metadata table with student-reaction assignments. The timestamp is used as an input for the next function and serves as a unique identifier for each run of the package.</p>
 </div>
 <div class="section level4">
@@ -105,6 +111,9 @@
 <code>generateAssignments()</code><a class="anchor" aria-label="anchor" href="#generateassignments"></a>
 </h4>
 <p>Takes the timestamp as input (and, invisibly, the student-reaction assignments table) and produces Excel file for each student with absorbances for the reactions with their assigned substrate and inhibitor. The files are deposited in the <code>output/assignments_output</code> folder with a given timestamp.</p>
+<div class="float">
+<img src="reference/figures/example_student_assignment_file.png" alt="Example student assignment file"><div class="figcaption">Example student assignment file</div>
+</div>
 </div>
 <div class="section level4">
 <h4 id="generateanswers">
@@ -117,6 +126,9 @@
 <li>Lineweaver-Burk (for inhibited and non-inhibited reactions, with regression equations)</li>
 </ul>
 <p>The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the <code>output/assignments_output</code> folder with a given timestamp.</p>
+<div class="float">
+<img src="reference/figures/example_answer_file.png" alt="Example answer file"><div class="figcaption">Example answer file</div>
+</div>
 </div>
 </div>
 <div class="section level3">

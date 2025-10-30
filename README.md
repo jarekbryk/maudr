@@ -26,11 +26,15 @@ The package uses enzyme kinetic parameters for _S. cerevisiae_ alcohol dehydroge
 - `enzyme_conc`
 - `inhibition_actual`
 
+![Reaction parameters table (this is the default ADH table included with the package and is also used in demo mode)](man/figures/example_reaction_parameters_file.png)
+
 If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers:
 
 - `student_no` – unique student ID (e.g. "u123456")
 - `first_name` – student's first name
 - `surname` – student's surname
+
+![Example student list (this list is included for the demo mode)](man/figures/example_student_list_file.png)
 
 ### Process
 
@@ -44,13 +48,15 @@ Sets up a top-level folder (default location: current folder) where the input da
 
 Takes a list of students and a table with enzyme parameters and creates a metadata table with an assignment of every student-to-reaction conditions, randomly drawn from the `reaction_parameters.xlsx file`. This table is deposited in the `output/assignments_output` folder in the top-level project folder created by `initialiseProject()`.
 
-If neither of the input files are provided, this function runs in a demo mode, using a list of 4 imaginary students and enzyme parameters for the ADH to proceed.
+If neither of the input files are provided, this function runs in a demo mode, using a provided list of four imaginary students and enzyme parameters for the ADH to proceed.
 
 The output of `assignReactions()` is a list with a timestamp and the metadata table with student-reaction assignments. The timestamp is used as an input for the next function and serves as a unique identifier for each run of the package.
 
 #### `generateAssignments()`
 
 Takes the timestamp as input (and, invisibly, the student-reaction assignments table) and produces Excel file for each student with absorbances for the reactions with their assigned substrate and inhibitor. The files are deposited in the  `output/assignments_output` folder with a given timestamp.
+
+![Example student assignment file](man/figures/example_student_assignment_file.png)
 
 #### `generateAnswers()`
 
@@ -61,6 +67,8 @@ Takes the timestamp as input (and, invisibly, all the student-specific files) an
 - Lineweaver-Burk (for inhibited and non-inhibited reactions, with regression equations) 
 
 The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the `output/assignments_output` folder with a given timestamp.
+
+![Example answer file](man/figures/example_answer_file.png)
 
 ### ▶️ Example use
 

@@ -1,6 +1,11 @@
-url: ~
 template:
   bootstrap: 5
+home:
+  title: maudr
+  description: R package designed to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in biochemistry and related laboratory courses.
 assets:
   - man/figures
-
+navbar:
+  structure:
+    left: [home, reference]
+    right: [github]

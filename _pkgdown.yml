@@ -1,7 +1,7 @@
 url: https://github.com/jarekbryk/maudr
 template:
   bootstrap: 5
-  # bootswatch: flatly  # nice, clean theme (try: cerulean, cosmo, united)
+  bootswatch: simplex # flatly, cerulean, cosmo
   bslib:
     pkgdown-nav-height: 60px
 

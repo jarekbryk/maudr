@@ -1,7 +1,7 @@
 # Simplified and fixed pkgdown workflow
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
   release:
     types: [published]

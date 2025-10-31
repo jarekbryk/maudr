@@ -8,7 +8,7 @@ template:
 home:
   title: maudr
   description: >
-    Package to simulate and evaluate enzyme kinetics data for undergraduate laboratory courses.
+    Package to simulate and evaluate enzyme kinetics data for undergraduate laboratory classes.
 
 authors:
   - name: "Lewis T. J. Ward"

@@ -17,7 +17,7 @@ remotes::install_github("jarekbryk/maudr")
 
 ### Introduction
 
-The package uses enzyme kinetic parameters for _S. cerevisiae_ alcohol dehydrogenase, as established in a [1987 publication by Ganzhorn _et al._](https://www.jbc.org/article/S0021-9258(18)61419-X/pdf). An Excel file with the parameters for ADH and its inhibitors is provided by default (`reaction_parameters.xlsx`), however, parameters for other enzymes and inhibitors can be provided by the user, as long as the column names remain unchanged:
+The package uses enzyme kinetic parameters for _S. cerevisiae_ alcohol dehydrogenase, as established in a [1987 publication by Ganzhorn _et al._](https://www.jbc.org/article/S0021-9258(18)61419-X/pdf). An Excel file with the parameters for ADH and its inhibitors is provided by default (`reaction_parameters.xlsx`), however, parameters for other enzymes and inhibitors can be provided by the user, as long as the column names remain unchanged (Fig. 1.):
 
 - `rxn_substrate`
 - `Kcat`
@@ -26,15 +26,17 @@ The package uses enzyme kinetic parameters for _S. cerevisiae_ alcohol dehydroge
 - `enzyme_conc`
 - `inhibition_actual`
 
-![Reaction parameters table (this is the default ADH table included with the package and is also used in demo mode)](man/figures/example_reaction_parameters_file.png)
+![Fig. 1.: Reaction parameters table (this is the default ADH table included with the package; it is also used in demo mode).<br/><br/>](man/figures/example_reaction_parameters_file.png)
 
-If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers:
+
+If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers (Fig. 2.):
 
 - `student_no` – unique student ID (e.g. "u123456")
 - `first_name` – student's first name
 - `surname` – student's surname
 
-![Example student list (this list is included for the demo mode)](man/figures/example_student_list_file.png)
+![Fig. 2.: Example student list (this list is included for the demo mode).<br/><br/>](man/figures/example_student_list_file.png)
+
 
 ### Process
 
@@ -56,7 +58,8 @@ The output of `assignReactions()` is a list with a timestamp and the metadata ta
 
 Takes the timestamp as input (and, invisibly, the student-reaction assignments table) and produces Excel file for each student with absorbances for the reactions with their assigned substrate and inhibitor. The files are deposited in the  `output/assignments_output` folder with a given timestamp.
 
-![Example student assignment file](man/figures/example_student_assignment_file.png)
+![Fig. 3.: Example student assignment file.<br/><br/>](man/figures/example_student_assignment_file.png)
+
 
 #### `generateAnswers()`
 
@@ -68,7 +71,8 @@ Takes the timestamp as input (and, invisibly, all the student-specific files) an
 
 The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the `output/assignments_output` folder with a given timestamp.
 
-![Example answer file](man/figures/example_answer_file.png)
+![Fig. 4.: Example answer file.<br/><br/>](man/figures/example_answer_file.png)
+
 
 ### ▶️ Example use
 

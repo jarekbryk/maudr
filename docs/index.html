@@ -63,7 +63,7 @@
 <div class="section level3">
 <h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
-<p>The package uses enzyme kinetic parameters for <em>S. cerevisiae</em> alcohol dehydrogenase, as established in a <a href="https://www.jbc.org/article/S0021-9258(18)61419-X/pdf" class="external-link">1987 publication by Ganzhorn <em>et al.</em></a>. An Excel file with the parameters for ADH and its inhibitors is provided by default (<code>reaction_parameters.xlsx</code>), however, parameters for other enzymes and inhibitors can be provided by the user, as long as the column names remain unchanged:</p>
+<p>The package uses enzyme kinetic parameters for <em>S. cerevisiae</em> alcohol dehydrogenase, as established in a <a href="https://www.jbc.org/article/S0021-9258(18)61419-X/pdf" class="external-link">1987 publication by Ganzhorn <em>et al.</em></a>. An Excel file with the parameters for ADH and its inhibitors is provided by default (<code>reaction_parameters.xlsx</code>), however, parameters for other enzymes and inhibitors can be provided by the user, as long as the column names remain unchanged (Fig. 1.):</p>
 <ul>
 <li><code>rxn_substrate</code></li>
 <li><code>Kcat</code></li>
@@ -73,9 +73,10 @@
 <li><code>inhibition_actual</code></li>
 </ul>
 <div class="float">
-<img src="reference/figures/example_reaction_parameters_file.png" alt="Reaction parameters table (this is the default ADH table included with the package and is also used in demo mode)"><div class="figcaption">Reaction parameters table (this is the default ADH table included with the package and is also used in demo mode)</div>
+<img src="reference/figures/example_reaction_parameters_file.png" alt="Fig. 1.: Reaction parameters table (this is the default ADH table included with the package; it is also used in demo mode).  "><div class="figcaption">Fig. 1.: Reaction parameters table (this is the default ADH table included with the package; it is also used in demo mode).<br><br>
 </div>
-<p>If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers:</p>
+</div>
+<p>If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers (Fig. 2.):</p>
 <ul>
 <li>
 <code>student_no</code> – unique student ID (e.g. “u123456”)</li>
@@ -85,7 +86,8 @@
 <code>surname</code> – student’s surname</li>
 </ul>
 <div class="float">
-<img src="reference/figures/example_student_list_file.png" alt="Example student list (this list is included for the demo mode)"><div class="figcaption">Example student list (this list is included for the demo mode)</div>
+<img src="reference/figures/example_student_list_file.png" alt="Fig. 2.: Example student list (this list is included for the demo mode).  "><div class="figcaption">Fig. 2.: Example student list (this list is included for the demo mode).<br><br>
+</div>
 </div>
 </div>
 <div class="section level3">
@@ -112,7 +114,8 @@
 </h4>
 <p>Takes the timestamp as input (and, invisibly, the student-reaction assignments table) and produces Excel file for each student with absorbances for the reactions with their assigned substrate and inhibitor. The files are deposited in the <code>output/assignments_output</code> folder with a given timestamp.</p>
 <div class="float">
-<img src="reference/figures/example_student_assignment_file.png" alt="Example student assignment file"><div class="figcaption">Example student assignment file</div>
+<img src="reference/figures/example_student_assignment_file.png" alt="Fig. 3.: Example student assignment file.  "><div class="figcaption">Fig. 3.: Example student assignment file.<br><br>
+</div>
 </div>
 </div>
 <div class="section level4">
@@ -127,7 +130,8 @@
 </ul>
 <p>The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the <code>output/assignments_output</code> folder with a given timestamp.</p>
 <div class="float">
-<img src="../reference/figures/example_answer_file.png" alt="Example answer file"><div class="figcaption">Example answer file</div>
+<img src="reference/figures/example_answer_file.png" alt="Fig. 4.: Example answer file.  "><div class="figcaption">Fig. 4.: Example answer file.<br><br>
+</div>
 </div>
 </div>
 </div>
@@ -136,11 +140,14 @@
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">maudr</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="reference/initialiseProject.html">initialiseProject</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"~/Desktop"</span><span class="op">)</span></span>
-<span><span class="va">setup</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assignReactions.html">assignReactions</a></span><span class="op">(</span>student_file <span class="op">=</span> <span class="st">"~/Documents/students_file.xlsx"</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span><span class="op">)</span> <span class="co"># students_file.xlsx is copied into the data folder in the top level folder</span></span>
-<span><span class="co"># str(setup) # to check the list created by the assignReaction() function</span></span>
+<span></span>
+<span><span class="va">setup</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assignReactions.html">assignReactions</a></span><span class="op">(</span>student_file <span class="op">=</span> <span class="st">"~/Documents/students_file.xlsx"</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span><span class="op">)</span> <span class="co"># students_file.xlsx is copied into the data folder in the top level folder; the default reaction_parameters.xlsx is used.</span></span>
+<span></span>
 <span><span class="fu"><a href="reference/generateAssignments.html">generateAssignments</a></span><span class="op">(</span>run_timestamp <span class="op">=</span> <span class="va">setup</span><span class="op">$</span><span class="va">timestamp</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span><span class="op">)</span> <span class="co"># Assignments (one Excel file per student) will be deposited in the output/assignment_output folder</span></span>
-<span><span class="fu"><a href="reference/generateAnswers.html">generateAnswers</a></span><span class="op">(</span>run_timestamp <span class="op">=</span> <span class="va">setup</span><span class="op">$</span><span class="va">timestamp</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span>, output_files <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> <span class="co"># Assignments (one PDF file per student plus a single PDf with answers from all students' datasets) will be deposited in the output/answers_output folder</span></span></code></pre></div>
+<span></span>
+<span><span class="fu"><a href="reference/generateAnswers.html">generateAnswers</a></span><span class="op">(</span>run_timestamp <span class="op">=</span> <span class="va">setup</span><span class="op">$</span><span class="va">timestamp</span>, project_path <span class="op">=</span> <span class="st">"~/Desktop"</span>, output_files <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> <span class="co"># Assignments (one PDF file per student plus a single PDf with answers with all students' datasets) will be deposited in the output/answers_output folder</span></span></code></pre></div>
 </div>
 </div>
 </div>

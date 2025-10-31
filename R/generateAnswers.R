@@ -200,7 +200,7 @@ generateAnswers <- function(
       ggplot2::labs(
         x = "Substrate concentration (mM)",
         y = "Reaction rate (\u0394Abs/min)",
-        title = "Michaelis-Menten (points)",
+        title = "Michaelis-Menten plot",
         colour = "Type of inhibition"
       ) +
       ggplot2::theme_minimal() +
@@ -245,7 +245,7 @@ generateAnswers <- function(
     if (nrow(df_pos) == 0) {
       return(
         ggplot2::ggplot() +
-          ggplot2::labs(title = "Lineweaver-Burke: insufficient data") +
+          ggplot2::labs(title = "Lineweaver-Burk plot: insufficient data") +
           ggplot2::theme_minimal()
       )
     }
@@ -282,7 +282,7 @@ generateAnswers <- function(
       ggplot2::labs(
         x = "1 / [S] (1/mM)",
         y = "1 / rate (min/\u0394Abs)",
-        title = "Lineweaver-Burke plot"
+        title = "Lineweaver-Burk plot"
       ) +
       ggplot2::theme_minimal() +
       theme(legend.position = "bottom") +

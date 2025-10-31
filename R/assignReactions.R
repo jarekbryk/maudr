@@ -38,7 +38,7 @@ assignReactions <- function(
   verbose = TRUE
 ) {
   # Ensure project folder structure exists
-  initialiseProject(path = project_path, verbose = FALSE)
+  # initialiseProject(path = project_path, verbose = FALSE)
 
   # Create timestamped subfolder for this run
   timestamp <- make_timestamp()

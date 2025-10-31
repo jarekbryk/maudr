@@ -28,7 +28,7 @@ initialiseProject <- function(
   # Define subfolders
   dirs <- file.path(
     project_path,
-    c("data", "code", "output/assignments_output", "output/answers_output")
+    c("data", "output/assignments_output", "output/answers_output")
   )
 
   # Create directories recursively

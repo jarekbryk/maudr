@@ -1,6 +1,7 @@
+url: https://github.com/jarekbryk/maudr
 template:
   bootstrap: 5
-  bootswatch: flatly  # nice, clean theme (try: cerulean, cosmo, united)
+  # bootswatch: flatly  # nice, clean theme (try: cerulean, cosmo, united)
   bslib:
     pkgdown-nav-height: 60px
 
@@ -19,10 +20,6 @@ authors:
   - name: "Jarek Bryk"
     orcid: "0000-0002-2791-9709"
     href: "https://github.com/jarekbryk"
- 
-repo:
-  url: https://github.com/jarekbryk/maudr
-  branch: master
 
 navbar:
   structure:
@@ -44,10 +41,9 @@ assets:
 
 footer:
   structure:
-    left: developed_by
-    right: built_with
+    left: [developed_by]
+    right: [built_with]
   components:
-    developed_by:
-      text: "Developed by Lewis Ward, Richard Bingham and Jarek Bryk"
-    built_with:
-      text: "Built with [pkgdown](https://pkgdown.r-lib.org/)"
+    developed_by: "Developed by Lewis Ward, Richard Bingham and Jarek Bryk"
+    built_with: "Built with [pkgdown](https://pkgdown.r-lib.org/)"
+

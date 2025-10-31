@@ -1,5 +1,7 @@
 # maudr
 
+## Introduction
+
 **maudr** is an R package designed to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in biochemistry and related laboratory courses. It allows instructors to automatically generate individualized, realistic experimental datasets for each student (complete with enzyme inhibition conditions) and to produce corresponding answers with visual summaries. 
 
 The name of the package is a play on the name of [Dr Maud Menten](https://en.wikipedia.org/wiki/Maud_Menten), a Canadian biochemist who established fundamental principles of enzyme kinetics, along with Dr Leonor Michaelis.

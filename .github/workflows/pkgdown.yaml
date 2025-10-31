@@ -8,9 +8,10 @@ on:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown.yaml
+name: pkgdown
 
-permissions: read-all
+permissions:
+  contents: write
 
 jobs:
   pkgdown:
@@ -20,10 +21,10 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0           # ensure commit history available to pkgdown
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -36,14 +37,19 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
+      # Build the site into docs/ on the runner, using your root _pkgdown.yml
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: |
+          options(crayon = FALSE)
+          pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
-      - name: Deploy to GitHub pages 🚀
+      # Deploy exactly the docs/ folder to gh-pages root
+      - name: Deploy to GitHub Pages 🚀
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
-          clean: false
-          branch: gh-pages
-          folder: .
+          branch: gh-pages          # publish branch
+          folder: docs              # publish folder (built above)
+          clean: true               # remove stale files so theme/navbar don't get "stuck"
+          single-commit: true       # keeps gh-pages history tidy

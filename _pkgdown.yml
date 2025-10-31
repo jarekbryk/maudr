@@ -1,11 +1,53 @@
 template:
   bootstrap: 5
+  bootswatch: flatly  # nice, clean theme (try: cerulean, cosmo, united)
+  bslib:
+    pkgdown-nav-height: 60px
+
 home:
   title: maudr
-  description: R package designed to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in biochemistry and related laboratory courses.
-assets:
-  - man/figures
+  description: >
+    Package to simulate and evaluate enzyme kinetics data for undergraduate laboratory courses.
+
+authors:
+  - name: "Lewis T. J. Ward"
+    href: "https://github.com/lewis-ward"
+  - name: "Richard Bingham"
+    orcid: "0000-0003-3805-0364"
+  - name: "Wayne-hon Lau"
+  - name: "Shamus Burns"
+  - name: "Jarek Bryk"
+    orcid: "0000-0002-2791-9709"
+    href: "https://github.com/jarekbryk"
+ 
+repo:
+  url: https://github.com/jarekbryk/maudr
+  branch: master
+
 navbar:
   structure:
     left: [home, reference]
-    right: [github]
+    right: [github, pkgdown]
+  components:
+    home:
+      text: "Home"
+      href: index.html
+    reference:
+      text: "Reference"
+      href: reference/index.html
+    github:
+      icon: fab fa-github
+      href: https://github.com/jarekbryk/maudr
+
+assets:
+  - man/figures
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with
+  components:
+    developed_by:
+      text: "Developed by Lewis Ward, Richard Bingham and Jarek Bryk"
+    built_with:
+      text: "Built with [pkgdown](https://pkgdown.r-lib.org/)"

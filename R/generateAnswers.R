@@ -379,13 +379,13 @@ generateAnswers <- function(
           width = 8.27,
           height = 11.69
         ) # A4 inches
-        print(createAnswerPage(
+        createAnswerPage(
           table1,
           table2,
           abs_vs_time_plot,
           mm_plot,
           lb_plot
-        ))
+        )
         grDevices::dev.off()
         if (verbose) message("Wrote answers PDF for ", student_id)
       })
@@ -394,16 +394,19 @@ generateAnswers <- function(
   if (output_files %in% c("single", "both")) {
     pdf_all <- file.path(answers_dir, "answers_all_students.pdf")
     grDevices::pdf(pdf_all, width = 8.27, height = 11.69)
-    purrr::pwalk(answers_tbl, function(...) {
-      row <- tibble::as_tibble(list(...))
-      print(createAnswerPage(
-        row$table1[[1]],
-        row$table2[[1]],
-        row$abs_vs_time_plot[[1]],
-        row$mm_plot[[1]],
-        row$lb_plot[[1]]
-      ))
-    })
+    purrr::pwalk(
+      answers_tbl |>
+        dplyr::select(table1, table2, abs_vs_time_plot, mm_plot, lb_plot),
+      function(table1, table2, abs_vs_time_plot, mm_plot, lb_plot) {
+        createAnswerPage(
+          table1,
+          table2,
+          abs_vs_time_plot,
+          mm_plot,
+          lb_plot
+        )
+      }
+    )
     grDevices::dev.off()
     if (verbose) message("Wrote combined PDF: ", pdf_all)
   }

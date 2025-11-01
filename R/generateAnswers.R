@@ -111,54 +111,36 @@ generateAnswers <- function(
   est_params <- rate_dat |>
     dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
     dplyr::summarise(
-      Km = {
-        df <- dplyr::pick(substrate_conc, rate)
-        tryCatch(
-          {
-            # nls over non-negative conc with a small lower bound for stability
-            df2 <- df |>
-              dplyr::filter(substrate_conc > 0, is.finite(rate), rate >= 0)
-            if (nrow(df2) < 3) {
-              stop("too few points")
+      {
+        df <- dplyr::pick(substrate_conc, rate) |>
+          dplyr::filter(substrate_conc > 0, is.finite(rate), rate >= 0)
+
+        if (nrow(df) < 3) {
+          tibble::tibble(Km = NA_real_, Vmax = NA_real_)
+        } else {
+          tryCatch(
+            {
+              start <- list(
+                Vmax = max(df$rate, na.rm = TRUE),
+                Km = stats::median(df$substrate_conc, na.rm = TRUE)
+              )
+              fit <- stats::nls(
+                rate ~ Vmax * substrate_conc / (Km + substrate_conc),
+                data = df,
+                start = start,
+                control = list(warnOnly = TRUE)
+              )
+              pars <- coef(fit)
+              tibble::tibble(
+                Km = round(pars[["Km"]], 3),
+                Vmax = round(pars[["Vmax"]], 3)
+              )
+            },
+            error = function(e) {
+              tibble::tibble(Km = NA_real_, Vmax = NA_real_)
             }
-            start <- list(
-              Vmax = max(df2$rate, na.rm = TRUE),
-              Km = stats::median(df2$substrate_conc, na.rm = TRUE)
-            )
-            nlsfit <- stats::nls(
-              rate ~ Vmax * substrate_conc / (Km + substrate_conc),
-              data = df2,
-              start = list(Vmax = start$Vmax, Km = start$Km),
-              control = list(warnOnly = TRUE)
-            )
-            round(coef(nlsfit)[["Km"]], 3)
-          },
-          error = function(e) NA_real_
-        )
-      },
-      Vmax = {
-        df <- dplyr::cur_data_all()
-        tryCatch(
-          {
-            df2 <- df |>
-              dplyr::filter(substrate_conc > 0, is.finite(rate), rate >= 0)
-            if (nrow(df2) < 3) {
-              stop("too few points")
-            }
-            start <- list(
-              Vmax = max(df2$rate, na.rm = TRUE),
-              Km = stats::median(df2$substrate_conc, na.rm = TRUE)
-            )
-            nlsfit <- stats::nls(
-              rate ~ Vmax * substrate_conc / (Km + substrate_conc),
-              data = df2,
-              start = list(Vmax = start$Vmax, Km = start$Km),
-              control = list(warnOnly = TRUE)
-            )
-            round(coef(nlsfit)[["Vmax"]], 3)
-          },
-          error = function(e) NA_real_
-        )
+          )
+        }
       },
       .groups = "drop"
     )
@@ -256,21 +238,18 @@ generateAnswers <- function(
     fits <- df_lb |>
       dplyr::group_by(rxn_condition) |>
       dplyr::summarise(
-        a = {
-          fit <- try(stats::lm(y ~ x), silent = TRUE)
-          if (inherits(fit, "try-error")) NA_real_ else unname(coef(fit))
-        },
-        b = {
-          fit <- try(stats::lm(y ~ x), silent = TRUE)
-          if (inherits(fit, "try-error")) NA_real_ else unname(coef(fit))
+        {
+          model = tryCatch(coef(stats::lm(y ~ x)), error = \(e) NA_real_)
+          tibble(
+            intercept = model[1],
+            slope = model[2],
+            x_intercept = -intercept / slope
+          )
         },
         .groups = "drop"
-      ) |>
-      dplyr::mutate(
-        x_intercept = ifelse(is.na(a) | is.na(b) | b == 0, NA_real_, -a / b)
       )
 
-    xmin <- min(c(0, fits$x_intercept), na.rm = TRUE)
+    xmin <- min(fits$x_intercept, na.rm = TRUE)
     xmax <- max(df_lb$x, na.rm = TRUE)
     pad <- 0.1 * (xmax - xmin)
     xlim <- c(xmin - pad, xmax + pad)

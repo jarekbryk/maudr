@@ -261,7 +261,8 @@ generateAnswers <- function(
       ggplot2::labs(
         x = "1 / [S] (1/mM)",
         y = "1 / rate (min/\u0394Abs)",
-        title = "Lineweaver-Burk plot"
+        title = "Lineweaver-Burk plot",
+        colour = "Type of inhibition"
       ) +
       ggplot2::theme_minimal() +
       theme(legend.position = "bottom") +

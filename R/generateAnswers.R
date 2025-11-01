@@ -111,8 +111,8 @@ generateAnswers <- function(
   est_params <- rate_dat |>
     dplyr::group_by(student_id, rxn_substrate, rxn_condition) |>
     dplyr::summarise(
-      KM = {
-        df <- dplyr::cur_data_all()
+      Km = {
+        df <- dplyr::pick(substrate_conc, rate)
         tryCatch(
           {
             # nls over non-negative conc with a small lower bound for stability
@@ -136,7 +136,7 @@ generateAnswers <- function(
           error = function(e) NA_real_
         )
       },
-      VMAX = {
+      Vmax = {
         df <- dplyr::cur_data_all()
         tryCatch(
           {
@@ -206,7 +206,7 @@ generateAnswers <- function(
       ggplot2::theme_minimal() +
       theme(legend.position = "bottom")
 
-    # Optional curve: if both VMAX & KM exist, overlay a curve per condition
+    # Optional curve: if both Vmax & Km exist, overlay a curve per condition
     add_curve <- function(p, Vmax, Km, cond, xs) {
       if (is.na(Vmax) || is.na(Km)) {
         return(p)
@@ -232,7 +232,7 @@ generateAnswers <- function(
           max(df_rate$substrate_conc, na.rm = TRUE),
           length.out = 200
         )
-        p <- add_curve(p, pars$VMAX, pars$KM, cond, xs)
+        p <- add_curve(p, pars$Vmax, pars$Km, cond, xs)
       }
     }
     p
@@ -318,26 +318,39 @@ generateAnswers <- function(
       by = c("student_id", "rxn_substrate")
     ) |>
 
+    # add inhibition info from metadata
+    dplyr::left_join(
+      meta |>
+        dplyr::select(student_id, rxn_substrate, inhibition_actual) |>
+        dplyr::distinct(),
+      by = c("student_id", "rxn_substrate")
+    ) |>
+
     dplyr::mutate(
       abs_vs_time_plot = purrr::map(data, plotAbsVsTime), # expects both conditions in `data`
       mm_plot = purrr::map2(rates, est, plotMM), # `rates` has both conds; `est` may have 0–2 rows
       lb_plot = purrr::map(rates, plotLB), # `rates` has both conds → OK
-      table1 = purrr::map2(
-        student_id,
-        rxn_substrate,
-        ~ tibble::tibble(info = c("student", "substrate"), value = c(.x, .y))
+      table1 = purrr::pmap(
+        list(student_id, rxn_substrate, inhibition_actual),
+        function(student_id, rxn_substrate, inhibition_actual) {
+          tibble::tibble(
+            info = c("student", "substrate", "inhibition assigned"),
+            value = c(student_id, rxn_substrate, inhibition_actual)
+          )
+        }
       ),
       table2 = purrr::map(
         est,
         ~ {
           if (is.null(.x) || nrow(.x) == 0) {
-            tibble::tibble(rxn_condition = NA, KM = NA, VMAX = NA)
+            tibble::tibble(rxn_condition = NA, Km = NA, Vmax = NA)
           } else {
-            dplyr::select(.x, rxn_condition, KM, VMAX)
+            dplyr::select(.x, rxn_condition, Km, Vmax)
           }
         }
       )
-    )
+    ) |>
+    dplyr::ungroup()
 
   # Layout helper
   createAnswerPage <- function(table1, table2, p_abs, p_mm, p_lb) {

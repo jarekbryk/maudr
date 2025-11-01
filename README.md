@@ -6,7 +6,7 @@
 
 The name of the package is a play on the name of [Dr Maud Menten](https://en.wikipedia.org/wiki/Maud_Menten), a Canadian biochemist who established fundamental principles of enzyme kinetics, along with Dr Leonor Michaelis.
 
-### Use case
+### Example use case
 
 A typical use scenario of the package is for instructors to produce individual datasets for students that contain absorbance values for an inhibited and non-inhibited reaction of alcohol dehydrogenase over a range of substrate concentrations and with different inhibitors. 
 
@@ -18,7 +18,7 @@ Because individual datasets analysed by students would then require individual s
 
 Originally, the set of scripts that became the maudr package was developed during COVID-19 lockdowns, where students could not attend laboratory classes but we still wanted them to practice topics in enzyme kinetics. Since then, we have used these functions to produce datasets for formative exercise for students, either in preparation for the laboratory classes, or during revision sessions.
 
-One of us (JB) presented the idea for the package in 2024 on the useR! conference in Salzburg; [slides (static only) from the presentation are included with the package](man/figures/jarekbryk_useR_maudr_talk_2024-07-09.pdf) or on [useR! pages](https://userconf2024.sched.com/event/1c8vr/datasets-and-assignments-for-undergraduate-teaching-enzyme-kinetics-as-an-example-jarek-bryk-university-of-huddersfield).
+One of us (JB) presented the idea for the package in 2024 on the useR! conference in Salzburg; slides (static only) from [the presentation are included with the package](man/figures/jarekbryk_useR_maudr_talk_2024-07-09.pdf) and available on [useR! pages](https://userconf2024.sched.com/event/1c8vr/datasets-and-assignments-for-undergraduate-teaching-enzyme-kinetics-as-an-example-jarek-bryk-university-of-huddersfield).
 
 ## ⬇️ Installation
 
@@ -97,9 +97,9 @@ library(maudr)
 
 initialiseProject(path = "~/Desktop")
 
-setup <- assignReactions(student_file = "~/Documents/students_file.xlsx", project_path = "~/Desktop") # students_file.xlsx is copied into the data folder in the top level folder; the default reaction_parameters.xlsx is used.
+setup <- assignReactions(student_file = "~/Documents/students_file.xlsx", project_path = "~/Desktop/maudr_assignments") # students_file.xlsx is copied into the data folder in the top level folder; the default reaction_parameters.xlsx is used.
 
-generateAssignments(run_timestamp = setup$timestamp, project_path = "~/Desktop") # Assignments (one Excel file per student) will be deposited in the output/assignment_output folder
+generateAssignments(run_timestamp = setup$timestamp, project_path = "~/Desktop/maudr_assignments") # Assignments (one Excel file per student) will be deposited in the output/assignment_output folder
 
-generateAnswers(run_timestamp = setup$timestamp, project_path = "~/Desktop", output_files = "both") # Assignments (one PDF file per student plus a single PDf with answers with all students' datasets) will be deposited in the output/answers_output folder
+generateAnswers(run_timestamp = setup$timestamp, project_path = "~/Desktop/maudr_assignments", output_files = "both") # Assignments (one PDF file per student plus a single PDf with answers with all students' datasets) will be deposited in the output/answers_output folder
 ```

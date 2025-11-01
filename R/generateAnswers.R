@@ -321,8 +321,8 @@ generateAnswers <- function(
     # add inhibition info from metadata
     dplyr::left_join(
       meta |>
-        dplyr::select(student_id, rxn_substrate, inhibition_actual) |>
-        dplyr::distinct(),
+        dplyr::filter(inhibition_actual != "no_inhibition") |>
+        dplyr::distinct(student_id, rxn_substrate, inhibition_actual),
       by = c("student_id", "rxn_substrate")
     ) |>
 

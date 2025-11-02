@@ -14,9 +14,9 @@ The input file for reaction parameters can be modified to accommodate other enzy
 
 The data can then be analysed by students to produce visualisations of enzyme reaction rates (as absorbance vs time, dependant on substrate concentrations), to plot Michaelis-Menten curves to estimate Km values and to identify the type of inhibition using the Lineweaver-Burk double-reciprocal plot.
 
-Because individual datasets analysed by students would then require individual solutions to be calculated and ploted by instructors, the package also produces the plots and estimated Km values from individual students' datasets and comparisons of inhibited and non-inhibited conditions.
+Because individual datasets analysed by students would then require individual solutions to be calculated and ploted by instructors, the package also produces the plots and estimated Km and Vmax values from individual students' datasets and comparisons of inhibited and non-inhibited conditions.
 
-Originally, the set of scripts that became the maudr package was developed during COVID-19 lockdowns, where students could not attend laboratory classes but we still wanted them to practice topics in enzyme kinetics. Since then, we have used these functions to produce datasets for formative exercise for students, either in preparation for the laboratory classes, or during revision sessions.
+Originally, the set of scripts that became the maudr package was developed during COVID-19 lockdowns, where students could not attend laboratory classes but we still wanted them to practice topics in enzyme kinetics. Since then, we have used these functions to produce datasets for formative exercises for students, either in preparation for the laboratory classes, or for use during revision sessions.
 
 One of us (JB) presented the idea for the package in 2024 on the useR! conference in Salzburg; slides (static only) from [the presentation are included with the package](man/figures/jarekbryk_useR_maudr_talk_2024-07-09.pdf) and available on [useR! pages](https://userconf2024.sched.com/event/1c8vr/datasets-and-assignments-for-undergraduate-teaching-enzyme-kinetics-as-an-example-jarek-bryk-university-of-huddersfield).
 
@@ -103,3 +103,7 @@ generateAssignments(run_timestamp = setup$timestamp, project_path = "~/Desktop/m
 
 generateAnswers(run_timestamp = setup$timestamp, project_path = "~/Desktop/maudr_assignments", output_files = "both") # Assignments (one PDF file per student plus a single PDf with answers with all students' datasets) will be deposited in the output/answers_output folder
 ```
+
+### Acknowledgements
+
+Use of the [nls package](https://search.r-project.org/R/refmans/stats/html/nls.html) to plot and estimate Michaelis-Menten curves was inspired by [this 2015 post by prof. Paul Brennan describing prof. Rob Benton's script on how to use it](https://rforbiochemists.blogspot.com/2015/05/plotting-and-fitting-enzymology-data.html).

@@ -17,12 +17,13 @@
 #' @param substr_conc Vector of substrate concentrations in mM.
 #' @param time_vec Vector of reaction time points in minutes.
 #' @param use_jitter Logical; add random noise to absorbances (default TRUE).
-#' @param jitter_sd Numeric; SD of multiplicative noise if `use_jitter = TRUE`
+#' @param jitter_sd Numeric; SD of additive noise if `use_jitter = TRUE`
 #'   (default 0.02, i.e. ±2% variability).
 #'
 #' @return Invisibly returns TRUE after writing all student assignment files
 #'   and updating metadata.
 #' @export
+
 generateAssignments <- function(
   run_timestamp,
   project_path = ".",
@@ -109,21 +110,31 @@ generateAssignments <- function(
       seed <- 1234
     } # fallback
 
+    # Create a stable, deterministic index per student_id (student_id may be non-numeric)
+    student_map <- all_data |>
+      dplyr::distinct(student_id) |>
+      dplyr::arrange(student_id) |>
+      dplyr::mutate(student_idx = dplyr::row_number())
+
     all_data <- all_data |>
+      dplyr::left_join(student_map, by = "student_id") |>
       dplyr::group_by(student_id) |>
-      dplyr::mutate(
-        # Set seed to enable individual students' jitter recovery
-        seed_offset = match(student_id, unique(all_data$student_id)),
-        absorbance = purrr::map2_dbl(
-          absorbance,
-          seed_offset,
-          ~ {
-            set.seed(seed + .y)
-            .x * rnorm(1, 1, jitter_sd)
-          }
-        )
+      # Ensure stable row order so the same noise draw is assigned to the same row
+      dplyr::arrange(
+        rxn_condition,
+        substrate_conc,
+        rxn_time,
+        .by_group = TRUE
       ) |>
-      dplyr::ungroup()
+      dplyr::mutate(
+        # Set seed once per student and generate additive noise for each row
+        absorbance = {
+          set.seed(seed + student_idx)
+          absorbance + rnorm(dplyr::n(), mean = 0, sd = jitter_sd)
+        }
+      ) |>
+      dplyr::ungroup() |>
+      dplyr::select(-student_idx)
   }
 
   all_data <- all_data |>

@@ -1,5 +1,5 @@
 ---
-title: "maudr: R package to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in undergraduate laboratory courses."
+title: "maudr: R package to generate and evaluate enzyme kinetics data for teaching in undergraduate laboratory courses."
 tags:
   - R
   - enzyme kinetics
@@ -31,40 +31,32 @@ bibliography: paper.bib
 
 # Summary
 
-When it comes to enzyme kinetics, many students can struggle to grasp the mathematical models and concepts behind it. [@Silverstein2016; @AlOdat2024; @NelsonCox2021] This was further compounded upon by the COVID-19 pandemic depriving students of laboratory practicals. [@Stenson2022] **maudr** is an R package designed to generate, simulate and visualise enzyme kinetics data within an educational context. Educators are able to create realistic, unique datasets with a range of inhibition types, and verify student answers against model answers.
+maudr is an R package designed to generate, distribute, and evaluate enzyme kinetics data for teaching and assessment in undergraduate biochemistry laboratory courses. It allows instructors to produce individualized, experimental datasets based on real enzyme parameters, complete with enzyme inhibition conditions, and to produce corresponding answers with visual summaries. The package uses yeast alcohol dehydrogenase with five alcohol substrates as a default, but can be extended to any enzyme for which basic processing parameters are known. The name of the package is a play on the name of Dr Maud Menten, a Canadian biochemist who established fundamental principles of enzyme kinetics, along with Dr Leonor Michaelis.
 
 # Statement of Need
 
-Although many enzyme kinetics tools exist, a majority are designed for research rather than teaching. Some can be complex, require programming skills, or are locked behind a paywall. [@Aledo2022; @MakDunn2024; @Johnson2009; @LiorZ2022]
 
-**maudr** provides a lightweight, easy-to-use interface through one single wrapper function. It focuses on pedagogical clarity for educators and learners, and enables the generation of datasets and their visualisations; supporting conceptual learning in undergraduate biochemistry and molecular biology courses.
 
 # Functionality
 
-**maudr** includes the following features:
+A typical use scenario of the package is for instructors to produce individual datasets that contain absorbance values for an inhibited and non-inhibited reaction of yeast alcohol dehydrogenase over a range of substrate concentrations and with different inhibitors. The enzyme parameters for each substrate are taken from REF. 
 
--   Modular pipeline of functions [@PengFunctions; @WickhamPackages; @WickhamBestPractices; @TaylorForecastML].
+Given a list of students - the only required user-supplied input file - the package will randomly assign substrate and inhibitor to each student and then generate absorbance values for a non-inhibited and inhibited reactions over substrate concentrations between 0 and 160 mM, using the enzyme's Kcat, Km and Vmax. The individual datasets can also include a small amount of user-controllable variation in absorbance values, to simulate experimental variation. maudr will generate a single Excel file with the absorbance data for each student.
 
--   User-modifiable parameters, as well as built-in defaults.
+The files can then be provided to students for analysis and to produce visualisations of enzyme reaction rates as absorbance vs time, dependent on substrate concentration, to plot Michaelis-Menten curves to estimate Km values and to identify the type of inhibition using the Lineweaver-Burk double-reciprocal plot.
 
--   Simulation of Michaelis-Menten kinetic models to generate student data.
-
--   Visualisation of absorbance-time, Lineweaver-Burk and Michaelis-Menten plots.
-
--   Exporting of results and figures to .pdf files, formatted using user-determined arguments, for utilisation in teaching materials.
-
-Usage examples and tutorials are included in the package's documentation.
+As individual datasets analysed by students would then require solutions to be calculated and visualised by instructors, the package also produces the plots and estimated Km and Vmax values from individual students' datasets and comparisons of inhibited and non-inhibited conditions. Solutions for each student are generated as PDF files (one page per student), with an option of saving a separate file for each student or to collate all individual PDFs into a single file, or both.
 
 # Experience of Use
 
-**maudr** has been tested on systems running Windows 11 and macOS, and is intended to be integrated into undergraduate biochemistry courses to generate enzyme kinetics datasets for large-scale classes.
+We have been using maudr (or earlier, the set of scripts that became maudr) to generate datasets and solutions as formative exercises for undergradaute students in year 1 and 2, during revision sessions or in other contexts, such as in programming classes for biology students.
 
 # Project Origin
 
-The project originated from the need to provide an interactive, open-source alternative to proprietary simulation software in teaching labs.
+Originally, the set of scripts that became the maudr package was developed during COVID-19 lockdowns, when students could not attend laboratory classes but still needed to practice topics in enzyme kinetics. One of us (JB) presented the idea for the package in 2024 on the useR! conference in Salzburg, which provided enough encouragement for maudr's development.
 
 # Acknowledgements
 
-Thank you to Wayne-hon Lau, Dr. Shamus Burns, and Dr. Richard Bingham, for their work in the early development of maudr.
+Use of the `nls` function REF to plot and estimate Michaelis-Menten curves was inspired by [this 2015 post by prof. Paul Brennan describing prof. Rob Benton's script on how to use it](https://rforbiochemists.blogspot.com/2015/05/plotting-and-fitting-enzymology-data.html).
 
 # References

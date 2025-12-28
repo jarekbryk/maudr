@@ -36,7 +36,7 @@ generateAssignments(
 
 \item{use_jitter}{Logical; add random noise to absorbances (default TRUE).}
 
-\item{jitter_sd}{Numeric; SD of multiplicative noise if \code{use_jitter = TRUE}
+\item{jitter_sd}{Numeric; SD of additive noise if \code{use_jitter = TRUE}
 (default 0.02, i.e. ±2\% variability).}
 }
 \value{

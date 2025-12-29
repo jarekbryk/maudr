@@ -8,7 +8,7 @@ template:
 home:
   title: maudr
   description: >
-    Package to simulate and evaluate enzyme kinetics data for undergraduate laboratory classes.
+    R package that generates individualised enzyme kinetics assignments for students, with corresponding answer PDFs. Includes demo mode.
 
 authors:
   - name: "Lewis T. J. Ward"

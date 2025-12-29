@@ -106,4 +106,4 @@ generateAnswers(run_timestamp = setup$timestamp, project_path = "~/Desktop/maudr
 
 ### Acknowledgements
 
-Use of the [nls package](https://search.r-project.org/R/refmans/stats/html/nls.html) to plot and estimate Michaelis-Menten curves was inspired by [this 2015 post by prof. Paul Brennan describing prof. Rob Benton's script on how to use it](https://rforbiochemists.blogspot.com/2015/05/plotting-and-fitting-enzymology-data.html).
+Use of the [nls function](https://search.r-project.org/R/refmans/stats/html/nls.html) to plot and estimate Michaelis-Menten curves was inspired by [this 2015 post by prof. Paul Brennan describing prof. Rob Benton's script on how to use it](https://rforbiochemists.blogspot.com/2015/05/plotting-and-fitting-enzymology-data.html).

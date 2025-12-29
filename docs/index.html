@@ -11,9 +11,9 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="maudr">
-<meta name="description" content="Package to simulate and evaluate enzyme kinetics data for undergraduate laboratory classes.
+<meta name="description" content="R package that generates individualised enzyme kinetics assignments for students, with corresponding answer PDFs. Includes demo mode.
 ">
-<meta property="og:description" content="Package to simulate and evaluate enzyme kinetics data for undergraduate laboratory classes.
+<meta property="og:description" content="R package that generates individualised enzyme kinetics assignments for students, with corresponding answer PDFs. Includes demo mode.
 ">
 </head>
 <body>
@@ -51,7 +51,7 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p><strong>maudr</strong> is an R package designed to simulate, distribute, and evaluate enzyme kinetics data for teaching and assessment in biochemistry and related laboratory courses. It allows instructors to automatically generate individualized, realistic experimental datasets for each student (complete with enzyme inhibition conditions) and to produce corresponding answers with visual summaries.</p>
+<p><strong>maudr</strong> is an R package designed to generate, distribute, and evaluate enzyme kinetics data for teaching and assessment in undergraduate biochemistry laboratory courses. It allows instructors to produce individualized, experimental datasets based on real enzyme parameters, complete with enzyme inhibition conditions, and to produce corresponding answers with visual summaries. The package uses yeast alcohol dehydrogenase with five alcohol substrates as a default enzyme, but can be extended to any enzyme for which basic processing parameters are known.</p>
 <p>The name of the package is a play on the name of <a href="https://en.wikipedia.org/wiki/Maud_Menten" class="external-link">Dr Maud Menten</a>, a Canadian biochemist who established fundamental principles of enzyme kinetics, along with Dr Leonor Michaelis.</p>
 <div class="section level3">
 <h3 id="example-use-case">Example use case<a class="anchor" aria-label="anchor" href="#example-use-case"></a>
@@ -167,7 +167,7 @@
 <div class="section level3">
 <h3 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
 </h3>
-<p>Use of the <a href="https://search.r-project.org/R/refmans/stats/html/nls.html" class="external-link">nls package</a> to plot and estimate Michaelis-Menten curves was inspired by <a href="https://rforbiochemists.blogspot.com/2015/05/plotting-and-fitting-enzymology-data.html" class="external-link">this 2015 post by prof. Paul Brennan describing prof. Rob Benton’s script on how to use it</a>.</p>
+<p>Use of the <a href="https://search.r-project.org/R/refmans/stats/html/nls.html" class="external-link">nls function</a> to plot and estimate Michaelis-Menten curves was inspired by <a href="https://rforbiochemists.blogspot.com/2015/05/plotting-and-fitting-enzymology-data.html" class="external-link">this 2015 post by prof. Paul Brennan describing prof. Rob Benton’s script on how to use it</a>.</p>
 </div>
 </div>
 </div>

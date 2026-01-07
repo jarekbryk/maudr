@@ -45,7 +45,7 @@ Given a list of students - the only required user-supplied input file - the pack
 
 The files can then be provided to students for analysis and to produce visualisations of enzyme reaction rates as absorbance vs time, dependent on substrate concentration, to plot Michaelis-Menten curves to estimate Km values and to identify the type of inhibition using the Lineweaver-Burk double-reciprocal plot.
 
-As individual datasets analysed by students would then require solutions to be calculated and visualised by instructors, the package also produces the plots and estimated Km and Vmax values from individual students' datasets and comparisons of inhibited and non-inhibited conditions. Solutions for each student are generated as PDF files (one page per student), with an option of saving a separate file for each student or to collate all individual PDFs into a single file, or both.
+As individual datasets analysed by students would then require solutions to be calculated and visualised by instructors to check students' solutions, the package also produces the plots estimated Km and Vmax values and comparisons of inhibited and non-inhibited conditions from individual students' datasets. Solutions for each student are generated as PDF files (one page per student), with an option of saving a separate file for each student or to collate all individual PDFs into a single file, or both.
 
 # Experience of Use
 

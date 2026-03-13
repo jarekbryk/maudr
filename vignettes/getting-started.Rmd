@@ -1,0 +1,174 @@
+---
+title: "Getting started with maudr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with maudr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+## Overview
+
+**maudr** generates individualised enzyme kinetics datasets for undergraduate teaching. Each student receives a unique Excel file containing simulated absorbance data for an inhibited and non-inhibited enzyme reaction. Instructors can then produce per-student answer PDFs with plots and estimated kinetic parameters.
+
+The package ships with demo data — a list of four imaginary students and kinetic parameters for yeast alcohol dehydrogenase (ADH) — so you can run the full workflow without preparing any input files.
+
+The four main functions must be used in order:
+
+1. `initialiseProject()` — set up the folder structure
+2. `assignReactions()` — assign each student a substrate and inhibitor
+3. `generateAssignments()` — produce per-student Excel data files
+4. `generateAnswers()` — produce per-student answer PDFs
+
+---
+
+## Installation
+
+**maudr** is available from GitHub only:
+
+```{r install}
+install.packages("remotes")
+remotes::install_github("jarekbryk/maudr")
+```
+
+```{r library}
+library(maudr)
+```
+
+---
+
+## Step 1: Initialise the project
+
+`initialiseProject()` creates a self-contained folder structure:
+
+```
+maudr_assignments/
+  data/
+  output/
+    assignments_output/
+    answers_output/
+```
+
+```{r init}
+initialiseProject(path = "~/Desktop")
+```
+
+By default the top-level folder is named `maudr_assignments` and is created in the current working directory. Both can be changed:
+
+```{r init-custom}
+initialiseProject(path = "~/Documents", name = "enzyme_project")
+```
+
+After `initialiseProject()` is called, **the project path is registered automatically** and all subsequent functions will find it without you needing to pass `project_path` again. You can still supply `project_path` explicitly if you want to override this.
+
+---
+
+## Step 2: Assign reactions to students
+
+`assignReactions()` randomly assigns each student a substrate and an inhibitor, then writes a timestamped metadata file to `output/assignments_output/`.
+
+### Demo mode
+
+If no input files are provided, the function uses the bundled demo student list (four imaginary students) and the default ADH parameters:
+
+```{r assign-demo}
+setup <- assignReactions()
+```
+
+### With your own files
+
+Supply a student list and (optionally) a custom enzyme parameters file:
+
+```{r assign-custom}
+setup <- assignReactions(
+  student_file = "~/Documents/students.xlsx",
+  enzyme_file  = "~/Documents/my_enzyme_params.xlsx"
+)
+```
+
+The student list must contain the columns `student_no`, `first_name`, and `surname`. The enzyme parameters file must contain `rxn_substrate`, `Kcat`, `Km`, `Vmax`, `enzyme_conc`, and `inhibition_actual`. Both input files are automatically copied into the project's `data/` folder.
+
+The function returns a list with two elements:
+
+- `$timestamp` — a string (e.g. `"2025-08-22_0848"`) used to identify this run in later steps
+- `$metadata` — the full student–reaction assignment table
+
+---
+
+## Step 3: Generate student assignment files
+
+`generateAssignments()` reads the metadata from Step 2 and writes one Excel file per student to `output/assignments_output/<timestamp>/`. Each file contains simulated absorbance vs time data across a range of substrate concentrations, for both the inhibited and uninhibited condition.
+
+```{r gen-assign}
+generateAssignments(run_timestamp = setup$timestamp)
+```
+
+A small, reproducible amount of random noise is added to each student's data by default (`use_jitter = TRUE`), simulating experimental variation. You can adjust the noise level or disable it:
+
+```{r gen-assign-nojitter}
+generateAssignments(run_timestamp = setup$timestamp, use_jitter = FALSE)
+generateAssignments(run_timestamp = setup$timestamp, jitter_sd = 0.05)
+```
+
+---
+
+## Step 4: Generate answer PDFs
+
+`generateAnswers()` reads each student's Excel file and produces:
+
+- Absorbance vs time plot (faceted by condition, coloured by substrate concentration)
+- Michaelis-Menten plot (both conditions on one plot, with optional fitted curve)
+- Lineweaver-Burk plot (both conditions, with fitted regression lines and equations)
+- A summary table of estimated K~m~ and V~max~ per condition
+
+```{r gen-answers}
+generateAnswers(run_timestamp = setup$timestamp)
+```
+
+By default a single combined PDF (`answers_all_students.pdf`) is written to `output/answers_output/<timestamp>/`. Use `output_files` to control this:
+
+```{r gen-answers-opts}
+# One PDF per student
+generateAnswers(run_timestamp = setup$timestamp, output_files = "separate")
+
+# Both combined and individual files
+generateAnswers(run_timestamp = setup$timestamp, output_files = "both")
+```
+
+---
+
+## Full demo workflow
+
+The complete workflow in demo mode, using the bundled data:
+
+```{r full-demo}
+library(maudr)
+
+initialiseProject()
+
+setup <- assignReactions()
+
+generateAssignments(run_timestamp = setup$timestamp)
+
+generateAnswers(run_timestamp = setup$timestamp, output_files = "both")
+```
+
+---
+
+## Using your own enzyme
+
+To use an enzyme other than ADH, provide a custom `enzyme_file` with the required columns. The `inhibition_actual` column must contain at least one non-`"no_inhibition"` value; `"no_inhibition"` rows are used internally to represent the uninhibited condition and are generated automatically.
+
+---
+
+## Reproducibility
+
+`assignReactions()` accepts a `seed` argument (default `1234`) which controls both the random assignment of students to conditions and the noise added in `generateAssignments()`. Setting the same seed on the same student list will always produce identical assignments and data files.

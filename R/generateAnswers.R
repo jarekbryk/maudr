@@ -8,14 +8,15 @@
 #'
 #' @param run_timestamp Timestamp string (YYYY-MM-DD_HHMM) from assignReactions().
 #' @param output_files One of "separate", "single", or "both". Default "single".
-#' @param project_path Path to the top-level project folder (default ".").
+#' @param project_path Path to the top-level project folder (defaults to the
+#'   path registered by [initialiseProject()], falling back to ".").
 #' @param verbose Logical; show progress messages (default TRUE).
 #' @return Invisibly TRUE.
 #' @export
 generateAnswers <- function(
   run_timestamp,
   output_files = c("single", "separate", "both"),
-  project_path = ".",
+  project_path = getOption("maudr.project_path", "."),
   verbose = TRUE
 ) {
   output_files <- match.arg(output_files)
@@ -372,12 +373,14 @@ generateAnswers <- function(
           width = 8.27,
           height = 11.69
         ) # A4 inches
-        createAnswerPage(
-          table1,
-          table2,
-          abs_vs_time_plot,
-          mm_plot,
-          lb_plot
+        suppressWarnings(
+          createAnswerPage(
+            table1,
+            table2,
+            abs_vs_time_plot,
+            mm_plot,
+            lb_plot
+          )
         )
         grDevices::dev.off()
         if (verbose) message("Wrote answers PDF for ", student_id)
@@ -391,12 +394,14 @@ generateAnswers <- function(
       answers_tbl |>
         dplyr::select(table1, table2, abs_vs_time_plot, mm_plot, lb_plot),
       function(table1, table2, abs_vs_time_plot, mm_plot, lb_plot) {
-        createAnswerPage(
-          table1,
-          table2,
-          abs_vs_time_plot,
-          mm_plot,
-          lb_plot
+        suppressWarnings(
+          createAnswerPage(
+            table1,
+            table2,
+            abs_vs_time_plot,
+            mm_plot,
+            lb_plot
+          )
         )
       }
     )

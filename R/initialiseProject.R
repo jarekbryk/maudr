@@ -34,16 +34,8 @@ initialiseProject <- function(
   # Create directories recursively
   purrr::walk(dirs, dir.create, recursive = TRUE, showWarnings = FALSE)
 
-  # # Add a small README with metadata
-  # readme_path <- file.path(project_path, "README.txt")
-  # if (!file.exists(readme_path)) {
-  #   info <- c(
-  #     "# maudr project",
-  #     paste("Created:", Sys.time()),
-  #     paste("maudr package version:", utils::packageVersion("maudr"))
-  #   )
-  #   writeLines(info, readme_path)
-  # }
+  # Register path in options so downstream functions can find it automatically
+  options(maudr.project_path = normalizePath(project_path))
 
   # Optional message
   if (verbose) {

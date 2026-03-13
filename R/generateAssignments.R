@@ -9,7 +9,8 @@
 #' reproducible way based on the run seed and student ID.
 #'
 #' @param run_timestamp Timestamp string (YYYY-MM-DD_HHMM) from [assignReactions()].
-#' @param project_path Path to the top-level project folder (default ".").
+#' @param project_path Path to the top-level project folder (defaults to the
+#'   path registered by [initialiseProject()], falling back to ".").
 #' @param verbose Logical; show progress messages (default TRUE).
 #' @param cuv_vol Cuvette volume in litres (default 0.003).
 #' @param eps Extinction coefficient (default 6220).
@@ -26,7 +27,7 @@
 
 generateAssignments <- function(
   run_timestamp,
-  project_path = ".",
+  project_path = getOption("maudr.project_path", "."),
   verbose = TRUE,
   cuv_vol = 0.003,
   eps = 6220,

@@ -14,7 +14,8 @@
 #' @param enzyme_file Optional path to Excel file containing enzyme
 #'   parameters (e.g. `reaction_parameters.xlsx`).
 #' @param project_path Path to the top-level project folder created by
-#'   [initialiseProject()]. Default is current working directory.
+#'   [initialiseProject()]. Defaults to the path registered by the most recent
+#'   call to [initialiseProject()], falling back to the current working directory.
 #' @param seed Random seed for reproducibility (default = 1234).
 #' @param verbose Logical; if TRUE (default), prints progress messages.
 #'
@@ -33,7 +34,7 @@
 assignReactions <- function(
   student_file = NULL,
   enzyme_file = NULL,
-  project_path = ".",
+  project_path = getOption("maudr.project_path", "."),
   seed = 1234,
   verbose = TRUE
 ) {

@@ -8,6 +8,7 @@ License: MIT + file LICENSE
 URL: https://github.com/jarekbryk/maudr
 BugReports: https://github.com/jarekbryk/maudr/issues
 Encoding: UTF-8
+StagedInstall: no
 Depends:
   R (>= 4.1)
 Imports:

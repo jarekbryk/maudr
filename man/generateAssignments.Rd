@@ -6,7 +6,7 @@
 \usage{
 generateAssignments(
   run_timestamp,
-  project_path = ".",
+  project_path = getOption("maudr.project_path", "."),
   verbose = TRUE,
   cuv_vol = 0.003,
   eps = 6220,
@@ -20,7 +20,8 @@ generateAssignments(
 \arguments{
 \item{run_timestamp}{Timestamp string (YYYY-MM-DD_HHMM) from \code{\link[=assignReactions]{assignReactions()}}.}
 
-\item{project_path}{Path to the top-level project folder (default ".").}
+\item{project_path}{Path to the top-level project folder (defaults to the
+path registered by \code{\link[=initialiseProject]{initialiseProject()}}, falling back to ".").}
 
 \item{verbose}{Logical; show progress messages (default TRUE).}
 

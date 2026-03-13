@@ -7,7 +7,7 @@
 generateAnswers(
   run_timestamp,
   output_files = c("single", "separate", "both"),
-  project_path = ".",
+  project_path = getOption("maudr.project_path", "."),
   verbose = TRUE
 )
 }
@@ -16,7 +16,8 @@ generateAnswers(
 
 \item{output_files}{One of "separate", "single", or "both". Default "single".}
 
-\item{project_path}{Path to the top-level project folder (default ".").}
+\item{project_path}{Path to the top-level project folder (defaults to the
+path registered by \code{\link[=initialiseProject]{initialiseProject()}}, falling back to ".").}
 
 \item{verbose}{Logical; show progress messages (default TRUE).}
 }

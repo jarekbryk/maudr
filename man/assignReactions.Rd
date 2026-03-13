@@ -7,7 +7,7 @@
 assignReactions(
   student_file = NULL,
   enzyme_file = NULL,
-  project_path = ".",
+  project_path = getOption("maudr.project_path", "."),
   seed = 1234,
   verbose = TRUE
 )
@@ -20,7 +20,8 @@ with columns \code{student_no}, \code{first_name}, and \code{surname}.}
 parameters (e.g. \code{reaction_parameters.xlsx}).}
 
 \item{project_path}{Path to the top-level project folder created by
-\code{\link[=initialiseProject]{initialiseProject()}}. Default is current working directory.}
+\code{\link[=initialiseProject]{initialiseProject()}}. Defaults to the path registered by the most recent
+call to \code{\link[=initialiseProject]{initialiseProject()}}, falling back to the current working directory.}
 
 \item{seed}{Random seed for reproducibility (default = 1234).}
 

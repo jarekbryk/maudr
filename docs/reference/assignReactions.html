@@ -15,7 +15,7 @@ a metadata Excel file to the timestamped assignments_output folder.'></head><bod
 
     <a class="navbar-brand me-2" href="../index.html">maudr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@ a metadata Excel file to the timestamped <code>assignments_output</code> folder.
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">assignReactions</span><span class="op">(</span></span>
 <span>  student_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  enzyme_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  project_path <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  project_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"maudr.project_path"</span>, <span class="st">"."</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">1234</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -74,7 +74,8 @@ parameters (e.g. <code>reaction_parameters.xlsx</code>).</p></dd>
 
 <dt id="arg-project-path">project_path<a class="anchor" aria-label="anchor" href="#arg-project-path"></a></dt>
 <dd><p>Path to the top-level project folder created by
-<code><a href="initialiseProject.html">initialiseProject()</a></code>. Default is current working directory.</p></dd>
+<code><a href="initialiseProject.html">initialiseProject()</a></code>. Defaults to the path registered by the most recent
+call to <code><a href="initialiseProject.html">initialiseProject()</a></code>, falling back to the current working directory.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>

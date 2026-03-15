@@ -2,9 +2,7 @@
 
 ## Introduction
 
-**maudr** is an R package designed to generate, distribute, and evaluate enzyme kinetics data for teaching and assessment in undergraduate biochemistry laboratory courses. It allows instructors to produce individualized, experimental datasets based on real enzyme parameters, complete with enzyme inhibition conditions, and to produce corresponding answers with visual summaries. The package uses yeast alcohol dehydrogenase with five alcohol substrates as a default enzyme, but can be extended to any enzyme for which basic processing parameters are known. The name of the package is a play on the name of [Dr Maud Menten](https://en.wikipedia.org/wiki/Maud_Menten), a Canadian biochemist who established fundamental principles of enzyme kinetics, along with Dr Leonor Michaelis.
-
-A typical use scenario of the package is for instructors to produce individual datasets for students that contain absorbance values for an inhibited and non-inhibited reaction of alcohol dehydrogenase over a range of substrate concentrations and with different inhibitors. Because individual datasets analysed by students would then require individual solutions to be calculated and visualised by instructors, the package also produces the plots and estimated Km and Vmax values from individual students' datasets and comparisons of inhibited and non-inhibited conditions.
+**maudr** is an R package designed to generate, distribute, and evaluate enzyme kinetics data for undergraduate teaching. A typical use scenario of the package is for instructors to produce individual datasets for students that contain absorbance values for an inhibited and non-inhibited reaction of alcohol dehydrogenase over a range of substrate concentrations and with different inhibitors. Because individual datasets analysed by students would then require individual solutions to be calculated and visualised by instructors, the package also produces the plots and estimated Km and Vmax values from individual students' datasets and comparisons of inhibited and non-inhibited conditions.
 
 More information about the package is available on the [maudr website](https://jarekbryk.github.io/maudr/) and in the vignette.
 
@@ -23,24 +21,11 @@ remotes::install_github("jarekbryk/maudr")
 
 The package uses enzyme kinetic parameters for _S. cerevisiae_ alcohol dehydrogenase, as established in a [1987 publication by Ganzhorn _et al._](https://www.jbc.org/article/S0021-9258(18)61419-X/pdf). An Excel file with the parameters for ADH and its inhibitors is provided by default (`reaction_parameters.xlsx`), however, parameters for other enzymes and inhibitors can be provided by the user, as long as the column names remain unchanged (Fig. 1.):
 
-- `rxn_substrate`
-- `Kcat`
-- `Km`
-- `Vmax`
-- `enzyme_conc`
-- `inhibition_actual`
-
 ![Fig. 1.: Reaction parameters table (this is the default ADH table included with the package; it is also used in demo mode).<br/><br/>](man/figures/example_reaction_parameters_file.png)
-
 
 If the default parameters are used, the only input file required for the package is an Excel file with a list of students for whom the datasets will be generated and analysed. This file must have one row per student, with the following column headers (Fig. 2.):
 
-- `student_no` – unique student ID (e.g. "u123456")
-- `first_name` – student's first name
-- `surname` – student's surname
-
 ![Fig. 2.: Example student list (this list is included for the demo mode).<br/><br/>](man/figures/example_student_list_file.png)
-
 
 ## ⚙️ Process
 
@@ -64,16 +49,9 @@ Takes the timestamp from `assignReactions()` as input (and, invisibly, the stude
 
 ![Fig. 3.: Example student assignment file.<br/><br/>](man/figures/example_student_assignment_file.png)
 
-
 ### `generateAnswers()`
 
-Takes the timestamp as input (and, invisibly, all the student-specific files) and produces PDF file with the results of the analysis of students' data. The results include plots of:
-
-- absorbance vs time (for inhibited and non-inhibited reactions)
-- Michaelis-Menten curves (for inhibited and non-inhibited reactions)
-- Lineweaver-Burk (for inhibited and non-inhibited reactions, with regression equations) 
-
-The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the `output/assignments_output` folder with a given timestamp.
+Takes the timestamp as input (and, invisibly, all the student-specific files) and produces PDF file with the results of the analysis of students' data. The PDF files can be generated individually for each student as separate files, or all together in a single file, or both. The PDF files are deposited in the `output/assignments_output` folder with a given timestamp.
 
 ![Fig. 4.: Example answer file.<br/><br/>](man/figures/example_answer_file.png)
 
@@ -85,9 +63,9 @@ library(maudr)
 
 initialiseProject(path = "~/Desktop")
 
-setup <- assignReactions(student_file = "~/Documents/students_file.xlsx", project_path = "~/Desktop/maudr_assignments") # students_file.xlsx is copied into the data folder in the top level folder; the default reaction_parameters.xlsx is used.
+setup <- assignReactions(student_file = "~/Documents/students_file.xlsx") # students_file.xlsx is copied into the data folder in the top level folder; the default reaction_parameters.xlsx is used.
 
-generateAssignments(run_timestamp = setup$timestamp) # Assignments (one Excel file per student) will be deposited in the output/assignment_output folder
+generateAssignments(run_timestamp = setup$timestamp, use_jitter = FALSE) # Assignments (one Excel file per student) will be deposited in the output/assignment_output folder
 
 generateAnswers(run_timestamp = setup$timestamp, output_files = "both") # Assignments (one PDF file per student plus a single PDf with answers with all students' datasets) will be deposited in the output/answers_output folder
 ```
